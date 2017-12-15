@@ -187,11 +187,12 @@ class V21DataStructureParser implements DataStructureParser
         $position = 0;
         foreach ($attributes as $attribute) {
             $parsedAttribute = $this->parseAttribute($attribute, $concepts);
-            $codelist = $parsedAttribute->getCodelist();
-            $codelistIdentifier = $codelist->getFullIdentifier();
+            if ($codelist = $parsedAttribute->getCodelist()) {
+              $codelistIdentifier = $codelist->getFullIdentifier();
 
-            if (array_key_exists($codelistIdentifier, $codelists)) {
+              if (array_key_exists($codelistIdentifier, $codelists)) {
                 $codelist->setCodes($codelists[$codelistIdentifier]);
+              }
             }
 
             $flowStructure->setAttribute($parsedAttribute);
